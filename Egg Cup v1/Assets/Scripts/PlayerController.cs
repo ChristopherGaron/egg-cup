@@ -93,13 +93,13 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector2(-1, 1);
         }
         // MOVING RIGHT + FLIPPING SPRITE
-        else if (Input.GetKey(KeyCode.D))
+        else if (rightDown)
         {
             velo.x = speed;
             transform.localScale = new Vector2(1, 1);
         }
         // STOPPING ON GROUND
-        else if (Input.GetKey(KeyCode.S) && coll.IsTouchingLayers(ground))
+        else if (downDown && coll.IsTouchingLayers(ground))
         {
             velo = new Vector2(0f, 0f);
         }
