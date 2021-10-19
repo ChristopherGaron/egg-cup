@@ -76,7 +76,11 @@ public class PlayerController : MonoBehaviour
         leftDown = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetAxisRaw("Horizontal") < 0;
         rightDown = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetAxisRaw("Horizontal") > 0;
         downDown = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0;
-        jumpDown = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space) || Input.GetAxisRaw("Vertical") > 0;
+
+        //Made it so that you only jump every time your press jump, rather than just holding jump and hopping around
+        //jumpDown = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space) || Input.GetAxisRaw("Vertical") > 0;
+
+        jumpDown = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || Input.GetAxisRaw("Vertical") > 0;
     }
 
     // MOVEMENT 
@@ -107,7 +111,12 @@ public class PlayerController : MonoBehaviour
         // JUMPING + STATE TRANSFORM
         if (jumpDown && coll.IsTouchingLayers(ground))
         {
-            velo.y = jumpHeight;
+
+            //Let me know what you think of this change - it has a pretty big impact
+            //With this code the egg deadens your jump, whereas with the 'velo.y' method it doesn't
+            //velo.y = jumpHeight;
+            
+            velo = new Vector2(rb.velocity.x, jumpHeight);
             state = State.jumping;
         }
 
