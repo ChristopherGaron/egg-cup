@@ -12,6 +12,9 @@ public class JumpPadScript : MonoBehaviour
     public float ToFiredTime, StayTime, ToRestTime;
     private float ToFiredCount, StayCount, ToRestCount;
 
+    public float CycleTime;
+    private float CycleCount;
+
     //whether or not the Jump Pad can be fired.
     public bool Primed;
 
@@ -55,6 +58,18 @@ public class JumpPadScript : MonoBehaviour
                 JumpPad.transform.position = RestPosition.position;
             }
         }
+        else
+        {
+            if(CycleTime > 0)
+            {
+                if(CycleCount <= 0)
+                {
+                    FireJumpPad();
+                }
+
+                CycleCount -= Time.fixedDeltaTime;
+            }
+        }
     }
 
 
@@ -67,6 +82,7 @@ public class JumpPadScript : MonoBehaviour
             ToFiredCount = ToFiredTime;
             StayCount = StayTime;
             ToRestCount = ToRestTime;
+            CycleCount = CycleTime;
         }
     }
 }
