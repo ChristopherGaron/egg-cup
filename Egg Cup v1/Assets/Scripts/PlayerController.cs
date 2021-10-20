@@ -105,7 +105,9 @@ public class PlayerController : MonoBehaviour
         // STOPPING ON GROUND
         else if (downDown && coll.IsTouchingLayers(ground))
         {
-            velo = new Vector2(0f, 0f);
+            //Patching DuccTech
+            //velo = new Vector2(0f, 0f);
+            velo = new Vector2(0f, rb.velocity.y);
         }
 
         // JUMPING + STATE TRANSFORM
