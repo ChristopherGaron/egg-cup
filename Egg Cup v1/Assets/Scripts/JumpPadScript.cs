@@ -72,7 +72,6 @@ public class JumpPadScript : MonoBehaviour
         }
     }
 
-
     public void FireJumpPad()
     {
         //if the Jump Pad is Primed, Fire it by resetting the counts
@@ -84,5 +83,11 @@ public class JumpPadScript : MonoBehaviour
             ToRestCount = ToRestTime;
             CycleCount = CycleTime;
         }
+    }
+
+    void OnDrawGizmos()
+    {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(RestPosition.position, FiredPosition.position);
     }
 }
