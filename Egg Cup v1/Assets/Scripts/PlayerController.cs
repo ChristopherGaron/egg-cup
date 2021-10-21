@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
 
     public bool hasEgg;
 
+    // JUMP SOUND
+    AudioSource jumpSound;
+
 
     // CREATING VARIABLES
     private void Start()
@@ -41,6 +44,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         coll = GetComponent<Collider2D>();
+        jumpSound = GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -76,7 +80,7 @@ public class PlayerController : MonoBehaviour
         leftDown = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetAxisRaw("Horizontal") < 0;
         rightDown = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetAxisRaw("Horizontal") > 0;
         downDown = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0;
-        jumpDown = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space);
+        jumpDown = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space);
     }
 
     // MOVEMENT 
@@ -109,6 +113,7 @@ public class PlayerController : MonoBehaviour
         // JUMPING + STATE TRANSFORM
         if (jumpDown && coll.IsTouchingLayers(ground))
         {
+            jumpSound.Play();
             velo = new Vector2(rb.velocity.x, jumpHeight);
             state = State.jumping;
         }
@@ -147,6 +152,12 @@ public class PlayerController : MonoBehaviour
         else
         {
             state = State.idle;
+        }
+
+        // TRYING TO COME UP WITH A 'SLIDING' STATE
+        if(state == State.idle && rb.velocity.x > 0)
+        {
+
         }
   
     }
