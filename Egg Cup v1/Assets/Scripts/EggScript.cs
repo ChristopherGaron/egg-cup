@@ -21,16 +21,23 @@ public class EggScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        eggColl = GetComponent<Collider2D>();
         eggGroundSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (eggColl.IsTouchingLayers(ground))
-        {
-            eggGroundSound.Play();
-        }
+
+        // if (eggColl.IsTouchingLayers(ground))
+        // {
+        //     eggGroundSound.Play();
+        // }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        eggGroundSound.Play();
     }
 }
 
