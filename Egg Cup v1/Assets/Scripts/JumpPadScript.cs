@@ -21,6 +21,8 @@ public class JumpPadScript : MonoBehaviour
     private Vector2 moveDirection;
     private float moveDistance;
 
+    public bool NoAutoPrime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,7 +54,7 @@ public class JumpPadScript : MonoBehaviour
                 jprb.MovePosition((Vector2)RestPosition.position + (moveDirection * (moveDistance * (ToRestCount / ToRestTime))));
                 ToRestCount -= Time.fixedDeltaTime;
             }
-            else
+            else if(!NoAutoPrime)
             {
                 Primed = true;
                 JumpPad.transform.position = RestPosition.position;
