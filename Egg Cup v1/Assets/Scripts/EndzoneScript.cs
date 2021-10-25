@@ -6,17 +6,18 @@ using UnityEngine;
 public class EndzoneScript : MonoBehaviour
 {
     public PlayerController player;
+    public NavigationScript nav;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        nav = nav ?? GameObject.Find("NavigationPanel").GetComponent<NavigationScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        nav.Navigation();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -24,7 +25,7 @@ public class EndzoneScript : MonoBehaviour
         //win condition
         if(collision.gameObject.tag == "Player" && player.hasEgg)
         {
-            SceneManager.LoadScene("PlayScene");
+            nav.NextScreen("WinScene");
         }
     }
 }
