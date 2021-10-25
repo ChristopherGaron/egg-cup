@@ -8,6 +8,7 @@ TagManager:
   - Egg
   - Cup
   - Trigger
+  - Coin
   layers:
   - Default
   - TransparentFX

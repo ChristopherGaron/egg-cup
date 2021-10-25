@@ -17,6 +17,10 @@ public class EggScript : MonoBehaviour
     // CALLING THE SOUND
     public AudioSource eggGroundSound;
 
+    // COIN COUNT
+
+    public int Coin = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,11 +33,19 @@ public class EggScript : MonoBehaviour
     private void Update()
     {
 
-        // if (eggColl.IsTouchingLayers(ground))
-        // {
-        //     eggGroundSound.Play();
-        // }
     }
+
+    // COIN COLL
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Coin")
+        {
+            Destroy(collision.gameObject);
+            Coin = 1;
+        }
+    }
+
 
     void OnCollisionEnter2D(Collision2D col)
     {
