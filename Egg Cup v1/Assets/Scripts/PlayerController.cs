@@ -35,6 +35,10 @@ public class PlayerController : MonoBehaviour
 
     public bool hasEgg;
 
+    public bool onGround;
+    public float coyoteTime;
+    private float coyoteCount;
+
     // JUMP SOUND
     AudioSource jumpSound;
 
@@ -113,7 +117,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // JUMPING + STATE TRANSFORM
-        if (jumpDown && coll.IsTouchingLayers(ground))
+        if (jumpDown && onGround)
         {
             jumpSound.Play();
             velo = new Vector2(rb.velocity.x, jumpHeight);
@@ -121,6 +125,20 @@ public class PlayerController : MonoBehaviour
         }
 
         rb.velocity = velo;
+
+        if(coll.IsTouchingLayers(ground))
+        {
+            onGround = true;
+            coyoteCount = 0;
+        }
+        else
+        {
+            if(coyoteCount > coyoteTime)
+            {
+                onGround = false;
+            }
+            coyoteCount += Time.fixedDeltaTime;
+        }
 
         VelocityState();
         anim.SetInteger("state", (int)state);
