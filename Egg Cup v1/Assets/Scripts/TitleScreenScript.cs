@@ -17,7 +17,7 @@ public class TitleScreenScript : MonoBehaviour {
 	void Update () {
         nav.Navigation();
 
-        if(Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Return))
+        if(Input.anyKey)
         {
             PlayClicked();
         }

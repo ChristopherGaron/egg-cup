@@ -12,6 +12,8 @@ public class EndScript : MonoBehaviour
     public Text TotalTimePlayedText;
     public Text DistanceText;
     public Text FurthestDistanceText;
+
+    private float delayInput = 0.75f;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,9 +30,11 @@ public class EndScript : MonoBehaviour
     {
         nav.Navigation();
 
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.R))
+        if (delayInput < 0 && Input.anyKey)
         {
             nav.NextScreen("PlayScene");
         }
+
+        delayInput -= Time.deltaTime;
     }
 }

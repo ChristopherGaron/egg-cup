@@ -9,6 +9,7 @@ TagManager:
   - Cup
   - Trigger
   - Coin
+  - Music
   layers:
   - Default
   - TransparentFX
