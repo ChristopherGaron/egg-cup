@@ -8,6 +8,8 @@ TagManager:
   - Egg
   - Cup
   - Trigger
+  - Coin
+  - Music
   layers:
   - Default
   - TransparentFX

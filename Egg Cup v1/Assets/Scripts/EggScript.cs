@@ -15,25 +15,41 @@ public class EggScript : MonoBehaviour
     [SerializeField] private LayerMask ground;
 
     // CALLING THE SOUND
-    public AudioSource eggGroundSound;
+    [SerializeField] public AudioSource eggGroundSound;
+    [SerializeField] public AudioSource coinCollect;
+
+    // COIN COUNT
+
+    public int Coin = 0;
+
+    // COIN SOUND
+
 
 
     // Start is called before the first frame update
     void Start()
     {
         eggColl = GetComponent<Collider2D>();
-        eggGroundSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     private void Update()
     {
 
-        // if (eggColl.IsTouchingLayers(ground))
-        // {
-        //     eggGroundSound.Play();
-        // }
     }
+
+    // COIN COLL
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Coin")
+        {
+            coinCollect.Play();
+            Destroy(collision.gameObject);
+            Coin = 1;
+        }
+    }
+
 
     void OnCollisionEnter2D(Collision2D col)
     {

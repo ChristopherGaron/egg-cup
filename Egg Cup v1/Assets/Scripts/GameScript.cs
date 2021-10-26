@@ -14,10 +14,13 @@ public class GameScript : MonoBehaviour
 
     private float maxDistance;
 
+    public NavigationScript nav;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        nav = nav ?? GameObject.Find("NavigationPanel").GetComponent<NavigationScript>();
+        ScoreData.ResetTempScores();
     }
 
     private void GetInputs()
@@ -28,6 +31,7 @@ public class GameScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        nav.Navigation();
         GetInputs();
 
         if(resetPressed)
@@ -49,5 +53,7 @@ public class GameScript : MonoBehaviour
     private void SetScore()
     {
         distanceText.text = Mathf.RoundToInt(maxDistance).ToString() + "m";
+        ScoreData.CurrentDistance = maxDistance;
+        ScoreData.FurthestDistance = maxDistance > ScoreData.FurthestDistance ? maxDistance : ScoreData.FurthestDistance;
     }
 }
