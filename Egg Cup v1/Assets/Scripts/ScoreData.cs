@@ -6,11 +6,10 @@ using UnityEngine;
 public static class ScoreData
 { 
 
-    public static DateTime SessionStart;
-    public static DateTime GameStart;
-    public static float CurrentDistance;
-    public static float FurthestDistance;
-
+    public static DateTime SessionStart = DateTime.Now;
+    public static DateTime GameStart = DateTime.Now;
+    public static float CurrentDistance = 0f;
+    public static float FurthestDistance = 0f;
 
     public static void ResetTempScores()
     {

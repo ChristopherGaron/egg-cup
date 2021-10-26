@@ -17,8 +17,8 @@ public class EndScript : MonoBehaviour
     {
         nav = nav ?? GameObject.Find("NavigationPanel").GetComponent<NavigationScript>();
 
-        TimePlayedText.text = (DateTime.Now - ScoreData.GameStart).ToString("hh:mm:ss");
-        TotalTimePlayedText.text = (DateTime.Now - ScoreData.SessionStart).ToString("hh:mm:ss");
+        TimePlayedText.text = ((TimeSpan)(DateTime.Now - ScoreData.GameStart)).ToString(@"hh\:mm\:ss");
+        TotalTimePlayedText.text = ((TimeSpan)(DateTime.Now - ScoreData.SessionStart)).ToString(@"hh\:mm\:ss");
         DistanceText.text = string.Format("{0:0}m", ScoreData.CurrentDistance);
         FurthestDistanceText.text = string.Format("{0:0}m", ScoreData.FurthestDistance);
     }
