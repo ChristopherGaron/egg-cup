@@ -27,4 +27,13 @@ public class EndzoneScript : MonoBehaviour
             nav.NextScreen("WinScene");
         }
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        //win condition
+        if (collision.gameObject.tag == "Player" && player.hasEgg)
+        {
+            nav.NextScreen("WinScene");
+        }
+    }
 }
