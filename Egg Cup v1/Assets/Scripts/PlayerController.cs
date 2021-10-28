@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Collider2D coll;
 
     // FINITE STATE MACHINE
-    private enum State {idle, running, jumping, falling, hurt}
+    private enum State {idle, running, jumping, falling, hurt, sliding}
     private State state = State.idle;
 
 
@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     public bool onGround;
     public float coyoteTime;
     private float coyoteCount;
+    private float jumpLag;
 
     // JUMP SOUND
     AudioSource jumpSound;
@@ -116,16 +117,6 @@ public class PlayerController : MonoBehaviour
             velo = new Vector2(0f, rb.velocity.y);
         }
 
-        // JUMPING + STATE TRANSFORM
-        if (jumpDown && onGround)
-        {
-            jumpSound.Play();
-            velo = new Vector2(rb.velocity.x, jumpHeight);
-            state = State.jumping;
-        }
-
-        rb.velocity = velo;
-
         if(coll.IsTouchingLayers(ground))
         {
             onGround = true;
@@ -137,8 +128,20 @@ public class PlayerController : MonoBehaviour
             {
                 onGround = false;
             }
-            coyoteCount += Time.fixedDeltaTime;
+            coyoteCount += Time.deltaTime;
         }
+
+        jumpLag -= Time.deltaTime;
+        // JUMPING + STATE TRANSFORM
+        if (jumpDown && onGround && jumpLag < 0)
+        {
+            jumpSound.Play();
+            velo = new Vector2(rb.velocity.x, jumpHeight);
+            state = State.jumping;
+            jumpLag = 0.25f;
+        }
+
+        rb.velocity = velo;
 
         VelocityState();
         anim.SetInteger("state", (int)state);
@@ -155,7 +158,6 @@ public class PlayerController : MonoBehaviour
                 state = State.falling;
             }
         }
-
         else if (state == State.falling)
         {
             if(coll.IsTouchingLayers(ground))
@@ -163,21 +165,20 @@ public class PlayerController : MonoBehaviour
                 state = State.idle;
             }
         }
-
-        else if(Input.GetAxis("Horizontal") != 0) 
+        else if(Input.GetAxisRaw("Horizontal") != 0) 
         {
             //Moving
             state = State.running;
         }
+        else if(Input.GetAxisRaw("Horizontal") == 0 && rb.velocity.x != 0)
+        {
+            //sliding
+            //state = State.sliding;
+            state = State.idle;
+        }
         else
         {
             state = State.idle;
-        }
-
-        // TRYING TO COME UP WITH A 'SLIDING' STATE
-        if(state == State.idle && rb.velocity.x > 0)
-        {
-
         }
   
     }
