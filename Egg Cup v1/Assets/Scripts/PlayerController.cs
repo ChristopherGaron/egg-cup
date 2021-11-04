@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
     private float coyoteCount;
     private float jumpLag;
 
+    public bool freezeInput;
+
     // JUMP SOUND
     AudioSource jumpSound;
 
@@ -83,11 +85,14 @@ public class PlayerController : MonoBehaviour
 
     private void GetInputs()
     {
-        leftDown = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetAxisRaw("Horizontal") < 0;
-        rightDown = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetAxisRaw("Horizontal") > 0;
-        downDown = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0;
-        jumpDown = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space);
-        shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+        if (!freezeInput)
+        {
+            leftDown = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) || Input.GetAxisRaw("Horizontal") < 0;
+            rightDown = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) || Input.GetAxisRaw("Horizontal") > 0;
+            downDown = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) || Input.GetAxisRaw("Vertical") < 0;
+            jumpDown = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.Space);
+            shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
+        }
     }
 
     // MOVEMENT 
@@ -100,13 +105,13 @@ public class PlayerController : MonoBehaviour
         // MOVING LEFT + FLIPPING SPRITE
         if(leftDown)
         {
-            velo.x = shiftDown ? -slowWalkSpeed : -speed;
+            velo.x = !shiftDown ? -slowWalkSpeed : -speed;
             transform.localScale = new Vector2(-1, 1);
         }
         // MOVING RIGHT + FLIPPING SPRITE
         else if (rightDown)
         {
-            velo.x = shiftDown ? slowWalkSpeed : speed;
+            velo.x = !shiftDown ? slowWalkSpeed : speed;
             transform.localScale = new Vector2(1, 1);
         }
         // STOPPING ON GROUND
@@ -165,12 +170,12 @@ public class PlayerController : MonoBehaviour
                 state = State.idle;
             }
         }
-        else if(Input.GetAxisRaw("Horizontal") != 0) 
+        else if(Input.GetAxisRaw("Horizontal") != 0 && !freezeInput) 
         {
             //Moving
             state = State.running;
         }
-        else if(Input.GetAxisRaw("Horizontal") == 0 && rb.velocity.x != 0)
+        else if(Input.GetAxisRaw("Horizontal") == 0 && rb.velocity.x != 0 && !freezeInput)
         {
             //sliding
             //state = State.sliding;
